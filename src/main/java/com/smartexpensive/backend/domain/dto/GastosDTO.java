@@ -16,4 +16,5 @@ public class GastosDTO {
     private String categoriaGasto;
     private String descripcionGasto;
     private LocalDate fechaGasto;
+    private Long usuarioId;
 }

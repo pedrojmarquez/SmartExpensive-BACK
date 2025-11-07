@@ -18,6 +18,7 @@ import java.time.LocalDate;
 @Slf4j
 @RestController
 @RequestMapping("/api/transcripcion")
+@CrossOrigin(origins = "http://localhost:8100")
 public class TranscripcionController {
 
     @Autowired

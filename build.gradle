@@ -44,6 +44,16 @@ dependencies {
 	implementation 'org.json:json:20230227'
 	implementation 'org.modelmapper:modelmapper:2.3.8'
 
+	// JWT (JJWT)
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+// (Opcional, pero útil si vas a validar JWT con el resource-server)
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+
+
 
 }
 

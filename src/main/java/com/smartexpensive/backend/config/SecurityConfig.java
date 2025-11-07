@@ -4,6 +4,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 public class SecurityConfig {
@@ -11,19 +16,38 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()  // desactiva CSRF para pruebas locales
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/transcripcion/**").permitAll() // 👈 permitimos transcripcion sin login
-                        .requestMatchers("/api/vision/**").permitAll() // 👈 permitimos visión sin login
-                        .requestMatchers("/api/**").authenticated()  // proteger rutas /api/**
-                        .anyRequest().permitAll()                     // el resto libre
+//                        .requestMatchers("/api/gastos/**").permitAll()
+//                        .requestMatchers("/api/transcripcion/**").permitAll()
+//                        .requestMatchers("/api/vision/**").permitAll()
+                        .requestMatchers("/api/usuario").permitAll()
+                        .requestMatchers("/login/success").permitAll() // 👈 permitimos el callback del login
+                        .requestMatchers("/api/**").permitAll()
                 )
-                // Spring Boot Security config
-                .oauth2Login()
-                    .defaultSuccessUrl("http://localhost:8100/home", true);
-
-
+                .oauth2Login(oauth -> oauth
+                        .successHandler((request, response, authentication) -> {
+                            // 👇 redirige a nuestro controlador que genera el JWT
+                            response.sendRedirect("/login/success");
+                        })
+                );
 
         return http.build();
     }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://localhost:8100"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*")); // 👈 acepta todos los encabezados
+        config.setExposedHeaders(List.of("Authorization", "Content-Type")); // 👈 expone headers útiles
+        config.setAllowCredentials(true); // 👈 permite cookies / credenciales
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
 }

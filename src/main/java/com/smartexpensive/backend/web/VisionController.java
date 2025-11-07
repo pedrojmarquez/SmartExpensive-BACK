@@ -16,6 +16,7 @@ import java.nio.file.Path;
 
 @RestController
 @RequestMapping("/api/vision")
+@CrossOrigin(origins = "http://localhost:8100")
 public class VisionController {
 
     @Autowired

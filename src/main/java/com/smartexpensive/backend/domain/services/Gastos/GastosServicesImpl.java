@@ -22,8 +22,8 @@ public class GastosServicesImpl implements IGastosServices{
 
 
     @Override
-    public List<GastosDTO> findAll() {
-        return List.of();
+    public List<Gasto> findAll() {
+        return gastoDao.findAll();
     }
 
     @Override
@@ -34,7 +34,9 @@ public class GastosServicesImpl implements IGastosServices{
     @Override
     public GastosDTO save(GastosDTO gastosDTO) {
         Gasto gasto = gastosMapper.toEntity(gastosDTO);
-        gasto = gastoDao.save(gasto);
+
+        //añadir usuario
+        gastoDao.save(gasto);
         return gastosMapper.toDto(gasto);
     }
 

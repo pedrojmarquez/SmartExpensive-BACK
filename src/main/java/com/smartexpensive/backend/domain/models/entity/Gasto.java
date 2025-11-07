@@ -32,4 +32,7 @@ public class Gasto {
     @Column(name = "fecha_gasto")
     private LocalDate fechaGasto;
 
+    @Column(name = "usuario_id")
+    private Long usuarioId;
+
 }
