@@ -4,6 +4,9 @@ import com.smartexpensive.backend.domain.converters.GastosMapper;
 import com.smartexpensive.backend.domain.dto.GastosDTO;
 import com.smartexpensive.backend.domain.models.dao.IGastoDao;
 import com.smartexpensive.backend.domain.models.entity.Gasto;
+import com.smartexpensive.backend.domain.models.entity.Usuario;
+import com.smartexpensive.backend.domain.services.Usuario.UsuarioServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,9 @@ public class GastosServicesImpl implements IGastosServices{
     @Autowired
     private GastosMapper gastosMapper;
 
+    @Autowired
+    private UsuarioServiceImpl usuarioService;
+
 
     @Override
     public List<Gasto> findAll() {
@@ -32,12 +38,28 @@ public class GastosServicesImpl implements IGastosServices{
     }
 
     @Override
-    public GastosDTO save(GastosDTO gastosDTO) {
+    public GastosDTO save(GastosDTO gastosDTO, HttpServletRequest request) {
+        Usuario usuario = usuarioService.obtenerUsuario(request);
         Gasto gasto = gastosMapper.toEntity(gastosDTO);
+        gasto.setUsuarioId(usuario.getId());
 
         //añadir usuario
         gastoDao.save(gasto);
         return gastosMapper.toDto(gasto);
+    }
+
+    @Override
+    public List<GastosDTO> findByUsuarioId(HttpServletRequest request) {
+
+        //obtener usuario
+        Usuario usuario = usuarioService.obtenerUsuario(request);
+
+        //obtener gastos
+        List<Gasto> gastos = gastoDao.findGastosByUsuarioId(usuario.getId());
+
+        //convertir a dto
+        return gastosMapper.toListDtos(gastos);
+
     }
 
     @Override
