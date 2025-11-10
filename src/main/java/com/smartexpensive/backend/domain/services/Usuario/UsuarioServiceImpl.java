@@ -46,6 +46,10 @@ public class UsuarioServiceImpl implements IUsuarioService{
     @Override
     public Usuario obtenerUsuario(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
+        // Quitar el prefijo "Bearer " si está presente
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
         String email = jwtService.extractUsername(token);
         System.out.println(email);
         return usuarioDao.findByEmail(email).orElse(null);
