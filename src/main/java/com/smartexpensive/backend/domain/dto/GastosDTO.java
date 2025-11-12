@@ -13,8 +13,8 @@ public class GastosDTO {
     private Long id;
     private String nombreComercio;
     private Double total;
-    private String categoriaGasto;
     private String descripcionGasto;
     private LocalDate fechaGasto;
     private Long usuarioId;
+    private CategoriasDTO categoria;
 }

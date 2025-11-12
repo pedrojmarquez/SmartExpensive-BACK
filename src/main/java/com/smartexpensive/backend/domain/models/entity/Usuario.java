@@ -3,10 +3,13 @@ package com.smartexpensive.backend.domain.models.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Builder
+@Table(name = "USUARIOS")
 public class Usuario {
 
     @Id

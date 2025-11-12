@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name = "gastos")
+@Table(name = "GASTOS")
 public class Gasto {
 
     @Id
@@ -23,8 +23,6 @@ public class Gasto {
     private String nombreComercio;
     private Double total;
 
-    @Column(name = "categoria_gasto")
-    private String categoriaGasto;
 
     @Column(name = "descripcion_gasto")
     private String descripcionGasto;
@@ -34,5 +32,9 @@ public class Gasto {
 
     @Column(name = "usuario_id")
     private Long usuarioId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_categoria" , referencedColumnName = "id_categoria")
+    private Categorias categoria;
 
 }
