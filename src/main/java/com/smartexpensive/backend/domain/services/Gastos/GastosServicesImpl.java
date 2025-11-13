@@ -1,8 +1,12 @@
 package com.smartexpensive.backend.domain.services.Gastos;
 
+import com.smartexpensive.backend.domain.converters.CategoriasMapper;
 import com.smartexpensive.backend.domain.converters.GastosMapper;
+import com.smartexpensive.backend.domain.dto.CategoriasDTO;
 import com.smartexpensive.backend.domain.dto.GastosDTO;
+import com.smartexpensive.backend.domain.models.dao.ICategoriasDao;
 import com.smartexpensive.backend.domain.models.dao.IGastoDao;
+import com.smartexpensive.backend.domain.models.entity.Categorias;
 import com.smartexpensive.backend.domain.models.entity.Gasto;
 import com.smartexpensive.backend.domain.models.entity.Usuario;
 import com.smartexpensive.backend.domain.services.Usuario.UsuarioServiceImpl;
@@ -25,6 +29,12 @@ public class GastosServicesImpl implements IGastosServices{
 
     @Autowired
     private UsuarioServiceImpl usuarioService;
+
+    @Autowired
+    private ICategoriasDao categoriasDao;
+
+    @Autowired
+    private CategoriasMapper categoriasMapper;
 
 
     @Override
@@ -65,5 +75,11 @@ public class GastosServicesImpl implements IGastosServices{
     @Override
     public void delete(Long id) {
 
+    }
+
+    @Override
+    public List<CategoriasDTO> findAllCategorias() {
+        List<Categorias> categorias = categoriasDao.findAll();
+        return categoriasMapper.toListDtos(categorias);
     }
 }

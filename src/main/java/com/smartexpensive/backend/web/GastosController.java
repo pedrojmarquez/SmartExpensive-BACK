@@ -1,6 +1,7 @@
 package com.smartexpensive.backend.web;
 
 import com.smartexpensive.backend.domain.converters.GastosMapper;
+import com.smartexpensive.backend.domain.dto.CategoriasDTO;
 import com.smartexpensive.backend.domain.dto.GastosDTO;
 import com.smartexpensive.backend.domain.models.entity.Gasto;
 import com.smartexpensive.backend.domain.services.Gastos.IGastosServices;
@@ -42,6 +43,15 @@ public class GastosController {
     @GetMapping("/me")
     public List<GastosDTO> findByUsuarioId(HttpServletRequest request) {
         return gastosServices.findByUsuarioId(request);
+    }
+
+    @GetMapping("/categorias")
+    public ResponseEntity<List<CategoriasDTO>> findAllCategorias() {
+        try {
+            return ResponseEntity.ok(gastosServices.findAllCategorias());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 }
