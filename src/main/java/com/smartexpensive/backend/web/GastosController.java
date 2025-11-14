@@ -3,6 +3,7 @@ package com.smartexpensive.backend.web;
 import com.smartexpensive.backend.domain.converters.GastosMapper;
 import com.smartexpensive.backend.domain.dto.CategoriasDTO;
 import com.smartexpensive.backend.domain.dto.GastosDTO;
+import com.smartexpensive.backend.domain.dto.PresupuestosDTO;
 import com.smartexpensive.backend.domain.models.entity.Gasto;
 import com.smartexpensive.backend.domain.services.Gastos.IGastosServices;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,6 +50,25 @@ public class GastosController {
     public ResponseEntity<List<CategoriasDTO>> findAllCategorias() {
         try {
             return ResponseEntity.ok(gastosServices.findAllCategorias());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+    @GetMapping("/presupuesto")
+    public ResponseEntity<PresupuestosDTO> findPresupuesto(HttpServletRequest request) {
+        try {
+            return ResponseEntity.ok(gastosServices.findPresupuesto(request));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping("/presupuesto/save")
+    public ResponseEntity<PresupuestosDTO> savePresupuesto(@RequestBody PresupuestosDTO presupuestosDTO,HttpServletRequest request) {
+        try {
+            return ResponseEntity.ok(gastosServices.savePresupuesto(presupuestosDTO,request));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

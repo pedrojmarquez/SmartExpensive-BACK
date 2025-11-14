@@ -2,6 +2,7 @@ package com.smartexpensive.backend.domain.services.Gastos;
 
 import com.smartexpensive.backend.domain.dto.CategoriasDTO;
 import com.smartexpensive.backend.domain.dto.GastosDTO;
+import com.smartexpensive.backend.domain.dto.PresupuestosDTO;
 import com.smartexpensive.backend.domain.models.entity.Gasto;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -17,4 +18,8 @@ public interface IGastosServices {
     public void delete(Long id);
 
     List<CategoriasDTO> findAllCategorias();
+
+    PresupuestosDTO findPresupuesto(HttpServletRequest request);
+
+    PresupuestosDTO savePresupuesto(PresupuestosDTO presupuestosDTO, HttpServletRequest request);
 }
