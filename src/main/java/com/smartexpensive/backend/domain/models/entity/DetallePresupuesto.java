@@ -24,8 +24,10 @@ public class DetallePresupuesto {
     @Column(name = "id_presupuesto")
     private Long idPresupuesto;
 
-    @Column(name = "id_categoria")
-    private Long idCategoria;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
+    private Categorias categoria;
 
     @Column(name = "monto_asignado")
     private Double montoAsignado;

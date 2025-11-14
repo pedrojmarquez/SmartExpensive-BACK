@@ -12,9 +12,9 @@ import java.time.LocalDate;
 public class DetallePresupuestoDTO {
     private Long idDetalle;
     private Long idPresupuesto;
-    private Long idCategoria;
     private Double montoAsignado;
     private Double montoGastado;
     private LocalDate creadoEn;
     private LocalDate actualizadoEn;
+    private CategoriasDTO categoria;
 }
