@@ -19,4 +19,5 @@ public class Usuario {
     private String nombre;
     private String email;
     private String imagen; // URL del perfil de Google
+    private String password;
 }

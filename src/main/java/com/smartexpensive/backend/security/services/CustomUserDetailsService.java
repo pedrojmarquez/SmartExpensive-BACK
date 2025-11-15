@@ -20,11 +20,14 @@ public class CustomUserDetailsService implements UserDetailsService {
         var usuario = usuarioDao.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + email));
 
-        // Spring necesita un UserDetails, aunque no uses password (OAuth2)
+        // Si el usuario tiene password (registro normal) se lo ponemos, si no, dejamos vacío (Google OAuth)
+        String password = usuario.getPassword() != null ? usuario.getPassword() : "";
+
         return User.builder()
                 .username(usuario.getEmail())
-                .password("") // vacío porque Google maneja la autenticación
+                .password(password)
                 .roles("USER")
                 .build();
     }
+
 }
